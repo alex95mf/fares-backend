@@ -1,2 +1,2 @@
 # fares-backend
-Backend API test code for the fares market
+Backend API code test for the fares market
