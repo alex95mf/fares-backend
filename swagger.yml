@@ -1,0 +1,199 @@
+swagger: "2.0"
+info:
+  title: EveryMundo-Backend
+  version: 1.0.0
+paths:
+  /dev/fare:
+    get:
+      summary: Obtener todos los Fares
+      responses:
+        200:
+          description: Respuesta exitosa
+          schema:
+            $ref: "#/definitions/FareOkResponseBody"
+        500:
+          description: Respuesta de error
+          schema:
+            $ref: "#/definitions/FareErrorResponseBody"
+    post:
+      summary: Crear un nuevo Fare
+      parameters:
+        - in: body
+          name: fare
+          description: Objeto JSON con los datos del Fare a crear
+          schema:
+            $ref: "#/definitions/FarePostRequestBody"
+      responses:
+        201:
+          description: Fare creado con éxito
+          schema:
+            $ref: "#/definitions/FarePostResponseBody"
+        400:
+          description: Solicitud errónea
+          schema:
+            $ref: "#/definitions/FareErrorResponseBody"
+        500:
+          description: Respuesta de error
+          schema:
+            $ref: "#/definitions/FareErrorResponseBody"
+  /dev/fare/{id}:
+    get:
+      summary: Obtener Fare por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          description: ID del Fare a obtener
+      responses:
+        200:
+          description: Respuesta exitosa
+          schema:
+            $ref: "#/definitions/Fare"
+        404:
+          description: No encontrado
+          schema:
+            $ref: "#/definitions/FareErrorResponseBody"
+        500:
+          description: Respuesta de error
+          schema:
+            $ref: "#/definitions/FareErrorResponseBody"
+    put:
+      summary: Actualizar un Fare existente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          description: ID del Fare a actualizar
+        - in: body
+          name: fare
+          description: Objeto JSON con los datos del Fare a actualizar
+          schema:
+            $ref: "#/definitions/FarePutRequestBody"
+      responses:
+        200:
+          description: Fare actualizado con éxito
+          schema:
+            $ref: "#/definitions/FarePutResponseBody"
+        400:
+          description: Solicitud errónea
+          schema:
+            $ref: "#/definitions/FareErrorResponseBody"
+        404:
+          description: No encontrado
+          schema:
+            $ref: "#/definitions/FareErrorResponseBody"
+        500:
+          description: Respuesta de error
+          schema:
+            $ref: "#/definitions/FareErrorResponseBody"
+    delete:
+      summary: Eliminar un Fare existente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          description: ID del Fare a eliminar
+      responses:
+        200:
+          description: Fare eliminado con éxito
+          schema:
+            $ref: "#/definitions/FareDeleteResponseBody"
+        404:
+          description: No encontrado
+          schema:
+            $ref: "#/definitions/FareErrorResponseBody"
+        500:
+          description: Respuesta de error
+          schema:
+            $ref: "#/definitions/FareErrorResponseBody"
+
+definitions:
+  Fare:
+    type: object
+    properties:
+      _id:
+        type: string
+      amount:
+        type: number
+      currency:
+        type: string
+      country:
+        type: string
+      formattedFare:
+        type: string
+      __v:
+        type: number
+  FareCreado:
+    type: object
+    properties:     
+      amount:
+        type: number
+      currency:
+        type: string
+      country:
+        type: string
+      formattedFare:
+        type: string
+      _id:
+        type: string
+      __v:
+        type: number
+  FarePostRequestBody:
+    type: object
+    properties:
+      amount:
+        type: number
+      currency:
+        type: string
+      country:
+        type: string
+    required:
+      - amount
+      - currency
+      - country
+  FarePutRequestBody:
+    type: object
+    properties:
+      amount:
+        type: number
+      currency:
+        type: string
+      country:
+        type: string
+  FareOkResponseBody:
+    type: object
+    properties:
+      fares:
+        type: array
+        items:
+          $ref: "#/definitions/Fare"
+  FareErrorResponseBody:
+    type: object
+    properties:
+      error:
+        type: string
+  FarePostResponseBody:
+    type: object
+    properties:
+      mensaje: 
+        type: string
+      fareCreado:
+        $ref: "#/definitions/FareCreado"
+  FarePutResponseBody:
+    type: object
+    properties:
+      mensaje:
+        type: string
+      fareActualizado:
+        $ref: "#/definitions/Fare"
+  FareDeleteResponseBody:
+    type: object
+    properties:
+      mensaje:
+        type: string
+      fareEliminado:
+        $ref: "#/definitions/Fare"
+

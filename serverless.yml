@@ -1,0 +1,57 @@
+service: EveryMundo-FaresBackend
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-1
+package:
+  # exclude:
+  #   - node_modules/**
+  include:
+    - node_modules/swagger-ui-dist/**
+    - node_modules/js-yaml/**
+    - node_modules/numeral/**
+plugins:
+  - serverless-offline
+functions:
+  getFares:
+    handler: handler.getFares
+    events:
+      - http:
+          path: fare
+          method: get
+          cors: true
+  getFare:
+    handler: handler.getFare
+    events:
+      - http:
+          path: fare/{id}
+          method: get
+          cors: true
+  createFare:
+    handler: handler.createFare
+    events:
+      - http:
+          path: fare
+          method: post
+          cors: true
+  updateFare:
+    handler: handler.updateFare
+    events:
+      - http:
+          path: fare/{id}
+          method: put
+          cors: true
+  deleteFare:
+    handler: handler.deleteFare
+    events:
+      - http:
+          path: fare/{id}
+          method: delete
+          cors: true
+  swaggerUI:
+    handler: swagger-ui.handler
+    events:
+      - http:
+          path: swagger
+          method: get
+          cors: true
